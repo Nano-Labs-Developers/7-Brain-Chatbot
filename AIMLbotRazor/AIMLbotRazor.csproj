@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B15C12C-117C-4893-9F2D-F835990B5601}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIMLbotRazor</RootNamespace>
+    <AssemblyName>AIMLbotRazor</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AIMLTagHandlers\bot.cs" />
+    <Compile Include="AIMLTagHandlers\condition.cs" />
+    <Compile Include="AIMLTagHandlers\date.cs" />
+    <Compile Include="AIMLTagHandlers\formal.cs" />
+    <Compile Include="AIMLTagHandlers\gender.cs" />
+    <Compile Include="AIMLTagHandlers\get.cs" />
+    <Compile Include="AIMLTagHandlers\gossip.cs" />
+    <Compile Include="AIMLTagHandlers\id.cs" />
+    <Compile Include="AIMLTagHandlers\input.cs" />
+    <Compile Include="AIMLTagHandlers\javascript.cs" />
+    <Compile Include="AIMLTagHandlers\learn.cs" />
+    <Compile Include="AIMLTagHandlers\lowercase.cs" />
+    <Compile Include="AIMLTagHandlers\person.cs" />
+    <Compile Include="AIMLTagHandlers\person2.cs" />
+    <Compile Include="AIMLTagHandlers\random.cs" />
+    <Compile Include="AIMLTagHandlers\sentence.cs" />
+    <Compile Include="AIMLTagHandlers\set.cs" />
+    <Compile Include="AIMLTagHandlers\size.cs" />
+    <Compile Include="AIMLTagHandlers\sr.cs" />
+    <Compile Include="AIMLTagHandlers\srai.cs" />
+    <Compile Include="AIMLTagHandlers\star.cs" />
+    <Compile Include="AIMLTagHandlers\system.cs" />
+    <Compile Include="AIMLTagHandlers\that.cs" />
+    <Compile Include="AIMLTagHandlers\thatstar.cs" />
+    <Compile Include="AIMLTagHandlers\think.cs" />
+    <Compile Include="AIMLTagHandlers\topicstar.cs" />
+    <Compile Include="AIMLTagHandlers\uppercase.cs" />
+    <Compile Include="AIMLTagHandlers\version.cs" />
+    <Compile Include="Bot.cs" />
+    <Compile Include="Normalize\ApplySubstitutions.cs" />
+    <Compile Include="Normalize\MakeCaseInsensitive.cs" />
+    <Compile Include="Normalize\SplitIntoSentences.cs" />
+    <Compile Include="Normalize\StripIllegalCharacters.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="Utils\AIMLLoader.cs" />
+    <Compile Include="Utils\AIMLTagHandler.cs" />
+    <Compile Include="Utils\CustomTagAttribute.cs" />
+    <Compile Include="Utils\Gender.cs" />
+    <Compile Include="Utils\MatchState.cs" />
+    <Compile Include="Utils\Node.cs" />
+    <Compile Include="Utils\SettingsDictionary.cs" />
+    <Compile Include="Utils\SubQuery.cs" />
+    <Compile Include="Utils\TagHandler.cs" />
+    <Compile Include="Utils\TextTransformer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="config\DefaultPredicates.xml" />
+    <EmbeddedResource Include="config\GenderSubstitutions.xml" />
+    <EmbeddedResource Include="config\Person2Substitutions.xml" />
+    <EmbeddedResource Include="config\PersonSubstitutions.xml" />
+    <EmbeddedResource Include="config\Settings.xml" />
+    <EmbeddedResource Include="config\Splitters.xml" />
+    <EmbeddedResource Include="config\Substitutions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="aiml\AI.aiml" />
+    <EmbeddedResource Include="aiml\alice.aiml" />
+    <EmbeddedResource Include="aiml\astrology.aiml" />
+    <EmbeddedResource Include="aiml\Atomic.aiml" />
+    <EmbeddedResource Include="aiml\badanswer.aiml" />
+    <EmbeddedResource Include="aiml\binary.aiml" />
+    <EmbeddedResource Include="aiml\Biography.aiml" />
+    <EmbeddedResource Include="aiml\Bot.aiml" />
+    <EmbeddedResource Include="aiml\bot_profile.aiml" />
+    <EmbeddedResource Include="aiml\Client.aiml" />
+    <EmbeddedResource Include="aiml\client_profile.aiml" />
+    <EmbeddedResource Include="aiml\Computers.aiml" />
+    <EmbeddedResource Include="aiml\continuation.aiml" />
+    <EmbeddedResource Include="aiml\copyme.aiml" />
+    <EmbeddedResource Include="aiml\date.aiml" />
+    <EmbeddedResource Include="aiml\Default.aiml" />
+    <EmbeddedResource Include="aiml\drugs.aiml" />
+    <EmbeddedResource Include="aiml\Emotion.aiml" />
+    <EmbeddedResource Include="aiml\Food.aiml" />
+    <EmbeddedResource Include="aiml\Geography.aiml" />
+    <EmbeddedResource Include="aiml\gossip.aiml" />
+    <EmbeddedResource Include="aiml\History.aiml" />
+    <EmbeddedResource Include="aiml\horoscope.aiml" />
+    <EmbeddedResource Include="aiml\humor.aiml" />
+    <EmbeddedResource Include="aiml\imponderables.aiml" />
+    <EmbeddedResource Include="aiml\Inquiry.aiml" />
+    <EmbeddedResource Include="aiml\Interjection.aiml" />
+    <EmbeddedResource Include="aiml\IU.aiml" />
+    <EmbeddedResource Include="aiml\knockknock.aiml" />
+    <EmbeddedResource Include="aiml\Knowledge.aiml" />
+    <EmbeddedResource Include="aiml\Literature.aiml" />
+    <EmbeddedResource Include="aiml\loebner10.aiml" />
+    <EmbeddedResource Include="aiml\Money.aiml" />
+    <EmbeddedResource Include="aiml\Movies.aiml" />
+    <EmbeddedResource Include="aiml\mp0.aiml" />
+    <EmbeddedResource Include="aiml\mp1.aiml" />
+    <EmbeddedResource Include="aiml\mp2.aiml" />
+    <EmbeddedResource Include="aiml\mp3.aiml" />
+    <EmbeddedResource Include="aiml\mp4.aiml" />
+    <EmbeddedResource Include="aiml\mp5.aiml" />
+    <EmbeddedResource Include="aiml\mp6.aiml" />
+    <EmbeddedResource Include="aiml\Music.aiml" />
+    <EmbeddedResource Include="aiml\numbers.aiml" />
+    <EmbeddedResource Include="aiml\Personality.aiml" />
+    <EmbeddedResource Include="aiml\phone.aiml" />
+    <EmbeddedResource Include="aiml\Pickup.aiml" />
+    <EmbeddedResource Include="aiml\politics.aiml" />
+    <EmbeddedResource Include="aiml\primeminister.aiml" />
+    <EmbeddedResource Include="aiml\primitive-math.aiml" />
+    <EmbeddedResource Include="aiml\psychology.aiml" />
+    <EmbeddedResource Include="aiml\pyschology.aiml" />
+    <EmbeddedResource Include="aiml\reduction.names.aiml" />
+    <EmbeddedResource Include="aiml\reduction0.safe.aiml" />
+    <EmbeddedResource Include="aiml\reduction1.safe.aiml" />
+    <EmbeddedResource Include="aiml\reduction2.safe.aiml" />
+    <EmbeddedResource Include="aiml\reduction3.safe.aiml" />
+    <EmbeddedResource Include="aiml\reduction4.safe.aiml" />
+    <EmbeddedResource Include="aiml\reductions-update.aiml" />
+    <EmbeddedResource Include="aiml\religion.aiml" />
+    <EmbeddedResource Include="aiml\Salutations.aiml" />
+    <EmbeddedResource Include="aiml\Science.aiml" />
+    <EmbeddedResource Include="aiml\sex.aiml" />
+    <EmbeddedResource Include="aiml\shutup.aiml" />
+    <EmbeddedResource Include="aiml\sports.aiml" />
+    <EmbeddedResource Include="aiml\Stack.aiml" />
+    <EmbeddedResource Include="aiml\Stories.aiml" />
+    <EmbeddedResource Include="aiml\That.aiml" />
+    <EmbeddedResource Include="aiml\update1.aiml" />
+    <EmbeddedResource Include="aiml\update_mccormick.aiml" />
+    <EmbeddedResource Include="aiml\wallace.aiml" />
+    <EmbeddedResource Include="aiml\xfind.aiml" />
+    <EmbeddedResource Include="aiml\yomama.aiml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
