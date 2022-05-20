@@ -1,0 +1,30 @@
+﻿
+<!-- message-bot -->
+<div class="message message-out">
+    <a href="" data-bs-toggle="modal" data-bs-target="#modal-profile" class="avatar avatar-responsive">
+        <img class="avatar-img" src="@avatar" alt="">
+    </a>
+
+    <div class="message-inner">
+        <div class="message-body">
+            <div class="message-content">
+                <div class="message-text">
+                    <p>@Message</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-footer">
+            <span class="extra-small text-muted">@time</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Message { get; set; }
+
+    string time = DateTime.Now.ToString("hh:mm tt");
+    string avatar = "https://i.imgur.com/Wobu8Ss.png";
+
+}

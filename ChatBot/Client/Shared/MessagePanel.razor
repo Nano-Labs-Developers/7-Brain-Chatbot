@@ -1,0 +1,148 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
+@inject IAIService AIService
+
+<main class="main is-visible" data-dropzone-area="">
+    <div class="container-fluid h-100">
+        <div class="d-flex flex-column h-100 position-relative mx-2 mx-lg-4">
+            <div class="chat-header border-bottom py-4 py-lg-7">
+                <div class="row align-items-center">
+                    <div class="col-1 d-xl-none">
+                        <a class="icon icon-lg text-muted" href="#" data-toggle-chat="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-xl-8">
+                        <div class="row align-items-center text-center text-xl-start">
+                            <div class="col-12 col-xl-6">
+                                <div class="row align-items-center gx-5">
+                                    <div class="col-auto">
+                                        <div class="avatar d-none d-xl-inline-block">
+                                            <img class="avatar-img" src="https://i.imgur.com/Wobu8Ss.png" alt="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col overflow-hidden">
+                                        <h5 class="text-truncate">7 Brain Chat Bot</h5>
+                                        <p class="text-truncate">7 Brain is typing <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-body hide-scrollbar flex-1 h-100">
+                <div class="chat-body-inner" style="padding-bottom: 87px;">
+                    <div class="py-6 py-lg-12">
+                        <ul id="messagesList">
+                            @foreach (var message in messages)
+                            {
+                                if (message.Contains("user"))
+                                {
+                                    string msg = message.Replace(" user", "");
+                                    <MessageUser Message=@msg />
+                                }
+                                else if (message.Contains("bot"))
+                                {
+                                    string msg = message.Replace(" bot", "");
+                                    <MessageBot Message=@msg />
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-footer pb-3 pb-lg-7 position-absolute bottom-0 start-0">
+                <div class="dz-preview bg-dark" id="dz-preview-row" data-horizontal-scroll=""></div>
+
+                <div class="chat-form rounded-pill bg-dark" data-emoji-form="">
+                    <div class="row align-items-center gx-0">
+                        <div class="col ms-4">
+                            <div class="input-group">
+                                <textarea @bind="messageInput" @onkeypress="KeyPressHandler" onkeyup="preventMoving(event);" class="form-control px-0" placeholder="Type your message..." rows="1" data-emoji-input="" data-autosize="true" style="max-height: 130px;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-auto" style="user-select:none">
+                            <button @onclick="Send" disabled="@(!IsConnected)" class="btn btn-icon btn-primary rounded-circle ms-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@code {
+    private HubConnection? hubConnection;
+    private List<string> messages = new List<string>();
+    private string? messageInput;
+    bool textToSpeech = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+            .Build();
+
+        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            var encodedMsg = $"{user} {message}";
+            messages.Add(encodedMsg);
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task Send()
+    {
+        string user;
+
+        if (hubConnection is not null)
+        {
+            if (String.IsNullOrEmpty(messageInput) || messageInput == "") return;
+
+            string msg = AIService.getOutput(messageInput);
+
+            user = "user";
+            await hubConnection.SendAsync("SendMessage", messageInput, user);
+
+            user = "bot";
+            await hubConnection.SendAsync("SendMessage", msg, user);
+        }
+    }
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+    void KeyDownHandler(KeyboardEventArgs args)
+    {
+        if (args.Key == "Backspace" && messageInput.Length >=1)
+        {
+            messageInput = messageInput.Substring(0, messageInput.Length - 1);
+        }
+    }
+
+    private async Task KeyPressHandler(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter" && messageInput.Length >=1)
+        {
+            await Send();
+        }
+    }
+}
